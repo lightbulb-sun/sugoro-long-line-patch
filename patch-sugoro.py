@@ -4,6 +4,7 @@ INPUT_FILENAME = 'english.nes'
 OUTPUT_FILENAME = 'fixed.nes'
 CHANGES_FILENAME = 'changes.txt'
 
+CODE_WAIT_FOR_BUTTON_PRESS = 0xf9
 
 DIGRAPHS = {
         "Fighter":  (0xe8,),
@@ -138,6 +139,8 @@ def main():
 
     for offset, s in load_changes(CHANGES_FILENAME):
         rom = replace_bytes(rom, offset, convert_string(s))
+
+    rom[0xec37] = CODE_WAIT_FOR_BUTTON_PRESS
 
     with open(OUTPUT_FILENAME, 'wb') as outf:
         outf.write(rom)
